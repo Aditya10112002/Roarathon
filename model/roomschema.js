@@ -10,5 +10,5 @@ const roomSchema = new mongoose.Schema({
   });
   
   const Room = mongoose.model("Room", roomSchema);
-  console.log(Room);
+  // console.log(Room);
   export default Room;
