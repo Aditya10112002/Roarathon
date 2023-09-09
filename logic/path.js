@@ -138,7 +138,7 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
     }
 
   }
-function nearestHelper(graph,currRoom){
+export function nearestHelper(graph,currRoom){
   if (graph.get(currRoom).helper === true){
     return graph.get(startRoom).UUID
   }

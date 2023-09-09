@@ -1,8 +1,9 @@
 // Import the initializeGraph function
 import initializeGraph from "../logic/graph.js";
-import navigateWithInstructions from "../logic/path.js";
+import navigateWithInstructions, { nearestHelper } from "../logic/path.js";
 import Room from "../model/roomschema.js";
 
+const graph = await initializeGraph();
 
 export const getRooms = async (req, res) => {
   try {
@@ -37,6 +38,21 @@ export const getHelpers = async (req, res) => {
   }
 }
 
+export const getNearestHelper = async (req, res) {
+  try {
+    const currRoom = req.body.currRoom;
+
+    const nearestHelperId = nearestHelper(graph, currRoom);
+    const nearestHelperObj = await Room.findOne({ UUID: nearestHelperId });
+    const nearestHelper = nearestHelperObj.room;
+    res.status(200).json({"room" : nearestHelper});
+  }
+  catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+  
+}
+
 
 export const navigate = async (req, res) => {
     try { 
@@ -51,9 +67,6 @@ export const navigate = async (req, res) => {
 
         //  console.log("startRoom:\n", startRoom);
         // console.log("endRoom:\n", endRoom);
-
-
-        const graph = await initializeGraph();
       
         if (!startRoom || !endRoom) {
           return res.status(400).json({ error: "Invalid parameters" });
@@ -63,7 +76,7 @@ export const navigate = async (req, res) => {
           return res.status(404).json({ error: "Room not found" });
         }
         const navigation = navigateWithInstructions(graph, startRoom, endRoom);
-        console.log(navigation);
+        // console.log(navigation);
     if (navigation === null) {
       return res.status(404).json({ error: "No valid path found" });
     }
