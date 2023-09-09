@@ -62,7 +62,6 @@ export const navigate = async (req, res) => {
         if (!graph.has(startRoom) || !graph.has(endRoom)) {
           return res.status(404).json({ error: "Room not found" });
         }
-      
         const navigation = navigateWithInstructions(graph, startRoom, endRoom);
         console.log(navigation);
     if (navigation === null) {

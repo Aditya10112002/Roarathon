@@ -3,7 +3,7 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
   const queue = [];
 
   // Initialize the queue with the start room and path
-  queue.push({ room: startRoom, path: [{ room: startRoom, UUID: graph.get(startRoom).UUID }] });
+  queue.push({ room: startRoom, path: [{ room: startRoom, UUID: graph.get(startRoom).UUID, helper: graph.get(startRoom).helper}] });
 
   while (queue.length > 0) {
     const { room, path } = queue.shift();
@@ -22,7 +22,8 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
         moves.push(moveInstruction);
       }
       console.log(path); // Add this line to log the path
-      return { path, directions, moves };
+      const nh = nearestHelper(path);
+      return { path, directions, moves,nh};
     }
 
     if (!visited.has(room)) {
@@ -46,7 +47,7 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
         if (!visited.has(connectedRoom)) {
           const connectedRoomData = graph.get(connectedRoom);
           if (connectedRoomData) {
-            const newPathStep = { room: connectedRoom, UUID: connectedRoomData.UUID };
+            const newPathStep = { room: connectedRoom, UUID: connectedRoomData.UUID, helper: connectedRoomData.helper};
             const newPath = [...path, newPathStep];
             queue.push({ room: connectedRoom, path: newPath });
           }
@@ -138,6 +139,13 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
     }
 
   }
+function nearestHelper(path){
+  for(let i =0; i < path.length; i++){
+    const curr = path[i];
+    if(curr.helper === true){
+      return curr.room;
+    }
+  }
+}
   export default navigateWithInstructions;
-
   
