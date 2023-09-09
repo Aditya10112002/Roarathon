@@ -8,7 +8,8 @@ const initializeGraph = async () => {
     console.log("Rooms fetched from the database:", rooms);
 
     rooms.forEach((room) => {
-      const connectedRooms = room.connectedRooms || []; // Ensure it's an array
+      const connectedRooms = room.connectedRooms || [];
+      console.log(room.UUID) // Ensure it's an array
       graph.set(room.room, {
         x: room.x,
         y: room.y,
