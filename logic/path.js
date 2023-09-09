@@ -11,7 +11,8 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
       if (room === endRoom) {
         // Found the destination room
         const directions = generateDirectionsFromPath(graph, path);
-        return { path, directions };
+        const instructions=leftright(directions);
+        return { path, directions, instructions};
       }
   
       if (!visited.has(room)) {
@@ -79,5 +80,8 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
     }
   }
   
+  function leftright(directions){
+    return "fhfhj";
+  }
   export default navigateWithInstructions;
   
