@@ -1,19 +1,19 @@
 function navigateWithInstructions(graph, startRoom, endRoom) {
-  const visited = new Set();
-  const queue = [];
-
-  // Initialize the queue with the start room and path
-  queue.push({ room: startRoom, path: [{ room: startRoom, UUID: graph.get(startRoom).UUID }] });
-
-  while (queue.length > 0) {
-    const { room, path } = queue.shift();
-
-    if (room === endRoom) {
-      // Found the destination room
-      const directions = generateDirectionsFromPath(graph, path.map((step) => step.room));
-      directions.unshift('N,00');
-
-      const moves = [];
+    const visited = new Set();
+    const queue = [];
+  
+    // Initialize the queue with the start room and path
+    queue.push({ room: startRoom, path: [startRoom] });
+  
+    while (queue.length > 0) {
+      const { room, path } = queue.shift();
+  
+      if (room === endRoom) {
+        // Found the destination room
+        const directions = generateDirectionsFromPath(graph, path);
+        directions.unshift('N');
+       // Inside your navigateWithInstructions function after generating directions
+        const moves = [];
 
       for (let i = 0; i < directions.length - 1; i++) {
         const currentDirection = directions[i];
@@ -53,11 +53,11 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
         }
       }
     }
+  
+    // No path found
+    return null;
   }
-
-  // No path found
-  return null;
-}
+  
   function generateDirectionsFromPath(graph, path) {
     const directions = [];
   
