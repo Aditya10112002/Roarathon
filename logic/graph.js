@@ -5,7 +5,7 @@ const initializeGraph = async () => {
     const rooms = await Room.find({});
     const graph = new Map();
 
-    console.log("Rooms fetched from the database:", rooms);
+    // console.log("Rooms fetched from the database:", rooms);
 
     rooms.forEach((room) => {
       const connectedRooms = room.connectedRooms || [];
@@ -17,7 +17,7 @@ const initializeGraph = async () => {
         UUID:room.UUID,
       });
     });
-    console.log("Graph initialized:", graph); // Add this line to check the graph data
+    // console.log("Graph initialized:", graph); // Add this line to check the graph data
     return graph;
   } catch (error) {
     console.error("Error initializing graph:", error);
