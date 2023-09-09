@@ -1,58 +1,64 @@
 function navigateWithInstructions(graph, startRoom, endRoom) {
-    const visited = new Set();
-    const queue = [];
-  
-    // Initialize the queue with the start room and path
-    queue.push({ room: startRoom, path: [startRoom] });
-  
-    while (queue.length > 0) {
-      const { room, path } = queue.shift();
-  
-      if (room === endRoom) {
-        // Found the destination room
-        const directions = generateDirectionsFromPath(graph, path);
-        directions.unshift('N');
-       // Inside your navigateWithInstructions function after generating directions
-        const moves = [];
+  const visited = new Set();
+  const queue = [];
 
-        for (let i = 0; i < directions.length - 1; i++) {
-          const currentDirection = directions[i];
-          const nextDirection = directions[i + 1];
-          const moveInstruction = generateMoveInstruction(currentDirection, nextDirection);
-          moves.push(moveInstruction);
-        }
-        return { path, directions,moves};
+  // Initialize the queue with the start room and path
+  queue.push({ room: startRoom, path: [{ room: startRoom, UUID: graph.get(startRoom).UUID }] });
+
+  while (queue.length > 0) {
+    const { room, path } = queue.shift();
+
+    if (room === endRoom) {
+      // Found the destination room
+      const directions = generateDirectionsFromPath(graph, path.map((step) => step.room));
+      directions.unshift('N');
+
+      const moves = [];
+
+      for (let i = 0; i < directions.length - 1; i++) {
+        const currentDirection = directions[i];
+        const nextDirection = directions[i + 1];
+        const moveInstruction = generateMoveInstruction(currentDirection, nextDirection);
+        moves.push(moveInstruction);
       }
-  
-      if (!visited.has(room)) {
-        visited.add(room);
-  
-        const roomData = graph.get(room);
-  
-        if (!roomData) {
-          // Handle the case where roomData is missing or undefined
-          return null; // or throw an error or handle it as needed
-        }
-  
-        const nextRooms = roomData.connectedRooms;
-  
-        if (!nextRooms) {
-          // Handle the case where connectedRooms is missing or undefined
-          return null; // or throw an error or handle it as needed
-        }
-  
-        for (const connectedRoom of nextRooms) {
-          if (!visited.has(connectedRoom)) {
-            const newPath = [...path, connectedRoom];
+
+      return { path, directions, moves };
+    }
+
+    if (!visited.has(room)) {
+      visited.add(room);
+
+      const roomData = graph.get(room);
+
+      if (!roomData) {
+        // Handle the case where roomData is missing or undefined
+        return null; // or throw an error or handle it as needed
+      }
+
+      const nextRooms = roomData.connectedRooms;
+
+      if (!nextRooms) {
+        // Handle the case where connectedRooms is missing or undefined
+        return null; // or throw an error or handle it as needed
+      }
+
+      for (const connectedRoom of nextRooms) {
+        if (!visited.has(connectedRoom)) {
+          const connectedRoomData = graph.get(connectedRoom);
+          if (connectedRoomData) {
+            const newPathStep = { room: connectedRoom, UUID: connectedRoomData.UUID };
+            const newPath = [...path, newPathStep];
             queue.push({ room: connectedRoom, path: newPath });
           }
         }
       }
     }
-  
-    // No path found
-    return null;
   }
+
+  // No path found
+  return null;
+}
+
   
   function generateDirectionsFromPath(graph, path) {
     const directions = [];
