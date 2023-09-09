@@ -11,7 +11,7 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
       if (room === endRoom) {
         // Found the destination room
         const directions = generateDirectionsFromPath(graph, path);
-        directions.unshift('N');
+        directions.unshift('N,00');
        // Inside your navigateWithInstructions function after generating directions
         const moves = [];
 
@@ -77,13 +77,13 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
     const dy = nextRoomData.y - currentRoomData.y;
   
     if (dx === 0 && dy >0) {
-      return "N"; // North
+      return "N,"+Math.abs(dy); // North
     } else if (dx >0 && dy === 0) {
-      return "E"; // East
+      return "E,"+Math.abs(dx); // East
     } else if (dx === 0 && dy <0) {
-      return "S"; // South
+      return "S,"+Math.abs(dy); // South
     } else if (dx <0 && dy === 0) {
-      return "W"; // West
+      return "W,"+Math.abs(dx); // West
     } else {
       return "unknown direction"; // Handle other cases as needed
     }
@@ -98,37 +98,36 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
     };
   
     // Check if the directions are valid
-    if (!directionsMap[currentDirection] || !directionsMap[nextDirection]) {
+    if (!directionsMap[currentDirection[0]] || !directionsMap[nextDirection[0]]) {
       return 'unknown move'; // Handle invalid directions
     }
-  
     // Determine the move instruction
-    if (currentDirection === nextDirection) {
-      return 'move straight'; // If the current direction is the same as the next direction
-    } else if (currentDirection === 'N' && nextDirection === 'E') {
-      return 'turn right'; // Turn right from North to East
-    }else if (currentDirection === 'N' && nextDirection === 'W') {
-      return 'turn left'; // Turn left from North to West
-    }else if (currentDirection === 'N' && nextDirection === 'S') {
-      return 'turn around and move straight'; // Turn turnaround from North to south
-    }else if (currentDirection === 'E' && nextDirection === 'N') {
-      return 'turn left'; // Turn left from East to North
-    } else if (currentDirection === 'E' && nextDirection === 'S') {
-      return 'turn right'; // Turn right from East to South
-    }else if (currentDirection === 'E' && nextDirection === 'W') {
-      return 'turn around and move straight'; // Turn turnaround from East to West
-    }  else if (currentDirection === 'S' && nextDirection === 'E') {
-      return 'turn left'; // Turn left from South to East
-    } else if (currentDirection === 'S' && nextDirection === 'W') {
-      return 'turn right'; // Turn right from South to West
-    }  else if (currentDirection === 'S' && nextDirection === 'N') {
-      return 'turn around and move straight'; // Turn turnaround from West to South
-    }else if (currentDirection === 'W' && nextDirection === 'N') {
-      return 'turn right'; // Turn right from West to North
-    } else if (currentDirection === 'W' && nextDirection === 'S') {
-      return 'turn left'; // Turn left from West to South
-    } else if (currentDirection === 'W' && nextDirection === 'E') {
-      return 'turn around and move straight'; // Turn turnaround from West to South
+    if (currentDirection[0] === nextDirection[0]) {
+      return 'move straight for '+nextDirection.slice(2)+' units'; // If the current direction is the same as the next direction
+    } else if (currentDirection[0] === 'N' && nextDirection[0] === 'E') {
+      return 'turn right and walk for '+nextDirection.slice(2)+' units'; // Turn right from North to East
+    }else if (currentDirection[0] === 'N' && nextDirection[0] === 'W') {
+      return 'turn left and walk for '+nextDirection.slice(2)+' units'; // Turn left from North to West
+    }else if (currentDirection[0] === 'N' && nextDirection[0] === 'S') {
+      return 'turn around and move straight for '+nextDirection.slice(2)+' units'; // Turn turnaround from North to south
+    }else if (currentDirection[0]=== 'E' && nextDirection[0] === 'N') {
+      return 'turn left and walk for '+nextDirection.slice(2)+' units'; // Turn left from East to North
+    } else if (currentDirection[0] === 'E' && nextDirection[0] === 'S') {
+      return 'turn right and walk for '+nextDirection.slice(2)+' units'; // Turn right from East to South
+    }else if (currentDirection[0] === 'E' && nextDirection[0] === 'W') {
+      return 'turn around and move straight for '+nextDirection.slice(2)+' units'; // Turn turnaround from East to West
+    }  else if (currentDirection[0] === 'S' && nextDirection[0] === 'E') {
+      return 'turn left and walk for '+nextDirection.slice(2)+' units'; // Turn left from South to East
+    } else if (currentDirection[0] === 'S' && nextDirection[0] === 'W') {
+      return 'turn right and walk for '+nextDirection.slice(2)+' units'; // Turn right from South to West
+    }  else if (currentDirection[0]=== 'S' && nextDirection[0] === 'N') {
+      return 'turn around and move straight for '+nextDirection.slice(2)+' units'; // Turn turnaround from West to South
+    }else if (currentDirection[0] === 'W' && nextDirection[0] === 'N') {
+      return 'turn right and move for '+nextDirection.slice(2)+' units'; // Turn right from West to North
+    } else if (currentDirection[0] === 'W' && nextDirection[0] === 'S') {
+      return 'turn left and move for '+nextDirection.slice(2)+' units'; // Turn left from West to South
+    } else if (currentDirection[0] === 'W' && nextDirection[0] === 'E') {
+      return 'turn around and move straight for '+nextDirection.slice(2)+' units'; // Turn turnaround from West to South
     }else {
       return 'unknown move'; // Handle other cases
     }
