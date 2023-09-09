@@ -37,7 +37,7 @@ export const navigate = async (req, res) => {
         const startRoom = startRoomObj.room;
         const endRoom = endRoomObj.room;
 
-        // console.log("startRoom:\n", startRoom);
+        //  console.log("startRoom:\n", startRoom);
         // console.log("endRoom:\n", endRoom);
 
 
@@ -52,7 +52,7 @@ export const navigate = async (req, res) => {
         }
       
         const navigation = navigateWithInstructions(graph, startRoom, endRoom);
-    
+        console.log(navigation);
     if (navigation === null) {
       return res.status(404).json({ error: "No valid path found" });
     }
