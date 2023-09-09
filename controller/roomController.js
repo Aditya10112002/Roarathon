@@ -1,9 +1,8 @@
 // Import the initializeGraph function
 import initializeGraph from "../logic/graph.js";
-import navigateWithInstructions, { nearestHelper } from "../logic/path.js";
+import  { navigateWithInstructions, nearestHelper } from "../logic/path.js";
 import Room from "../model/roomschema.js";
 
-const graph = await initializeGraph();
 
 export const getRooms = async (req, res) => {
   try {
@@ -36,21 +35,22 @@ export const getHelpers = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-export const getNearestHelper = async (req, res) {
+export const getNearestHelper = async (req, res) => {
   try {
-    const currRoom = req.body.currRoom;
-
-    const nearestHelperId = nearestHelper(graph, currRoom);
+    const currRoom = req.params.currRoom;
+    const currRoomObj = await Room.findOne({ UUID: currRoom });
+    const currRoomName = currRoomObj.room;
+    const graph = await initializeGraph();
+    const nearestHelperId = nearestHelper(graph, currRoomName);
     const nearestHelperObj = await Room.findOne({ UUID: nearestHelperId });
-    const nearestHelper = nearestHelperObj.room;
-    res.status(200).json({"room" : nearestHelper});
+    const nearestHelperName = nearestHelperObj.room;
+    res.status(200).json({"room" : nearestHelperName});
   }
   catch (error) {
     res.status(500).json({ message: error.message });
   }
-  
 }
 
 
@@ -58,7 +58,7 @@ export const navigate = async (req, res) => {
     try { 
         const startRoomId = req.body.startRoom;
         const endRoomId = req.body.endRoom;
-
+        const graph = await initializeGraph();
         const startRoomObj = await Room.findOne({ UUID: startRoomId });
         const endRoomObj = await Room.findOne({ UUID: endRoomId });
 

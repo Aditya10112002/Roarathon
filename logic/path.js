@@ -1,4 +1,4 @@
-function navigateWithInstructions(graph, startRoom, endRoom) {
+export function navigateWithInstructions(graph, startRoom, endRoom) {
   const visited = new Set();
   const queue = [];
 
@@ -140,17 +140,17 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
   }
 export function nearestHelper(graph,currRoom){
   if (graph.get(currRoom).helper === true){
-    return graph.get(startRoom).UUID
+    return graph.get(currRoom).UUID
   }
   const visited = new Set();
   const queue = [];
-  queue.push(startRoom);
+  queue.push(currRoom);
   while (queue.length > 0) {
     const room = queue.shift();
 
-    if (graph.get(currRoom).helper === true) {
+    if (graph.get(room).helper === true) {
       // Found the destination room
-      return graph.get(startRoom).UUID
+      return graph.get(room).UUID
     }
 
     if (!visited.has(room)) {
@@ -182,5 +182,4 @@ export function nearestHelper(graph,currRoom){
   }
 
 }
-  export default navigateWithInstructions;
   

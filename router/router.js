@@ -3,7 +3,7 @@ import { navigate, getRooms, getNearestHelper } from '../controller/roomControll
 const router = express.Router()
 router.get("/navigateWithInstructions",navigate)
 router.get("/getRooms/id=:id", getRooms)
-router.get("/getNearestHelper", getNearestHelper)
+router.get("/getNearestHelper/currRoom=:currRoom", getNearestHelper)
 
 
 
