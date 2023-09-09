@@ -6,7 +6,7 @@ const roomSchema = new mongoose.Schema({
     x: Number,
     y: Number,
     connectedRooms: [String],
-    uuid: String
+    UUID: String
   });
   
   const Room = mongoose.model("Room", roomSchema);

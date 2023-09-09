@@ -11,8 +11,17 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
       if (room === endRoom) {
         // Found the destination room
         const directions = generateDirectionsFromPath(graph, path);
-        const instructions=leftright(directions);
-        return { path, directions, instructions};
+        directions.unshift('N');
+       // Inside your navigateWithInstructions function after generating directions
+        const moves = [];
+
+        for (let i = 0; i < directions.length - 1; i++) {
+          const currentDirection = directions[i];
+          const nextDirection = directions[i + 1];
+          const moveInstruction = generateMoveInstruction(currentDirection, nextDirection);
+          moves.push(moveInstruction);
+        }
+        return { path, directions,moves};
       }
   
       if (!visited.has(room)) {
@@ -79,9 +88,53 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
       return "unknown direction"; // Handle other cases as needed
     }
   }
+  function generateMoveInstruction(currentDirection, nextDirection) {
+    // Define a mapping of cardinal directions to move instructions
+    const directionsMap = {
+      N: 'straight',
+      E: 'right',
+      S: 'turn around',
+      W: 'left',
+    };
   
-  function leftright(directions){
-    return "fhfhj";
+    // Check if the directions are valid
+    if (!directionsMap[currentDirection] || !directionsMap[nextDirection]) {
+      return 'unknown move'; // Handle invalid directions
+    }
+  
+    // Determine the move instruction
+    if (currentDirection === nextDirection) {
+      return 'straight'; // If the current direction is the same as the next direction
+    } else if (currentDirection === 'N' && nextDirection === 'E') {
+      return 'right'; // Turn right from North to East
+    }else if (currentDirection === 'N' && nextDirection === 'W') {
+      return 'left'; // Turn left from North to West
+    }else if (currentDirection === 'N' && nextDirection === 'S') {
+      return 'turnaround'; // Turn turnaround from North to south
+    }else if (currentDirection === 'E' && nextDirection === 'N') {
+      return 'left'; // Turn left from East to North
+    } else if (currentDirection === 'E' && nextDirection === 'S') {
+      return 'right'; // Turn right from East to South
+    }else if (currentDirection === 'E' && nextDirection === 'W') {
+      return 'turnaround'; // Turn turnaround from East to West
+    }  else if (currentDirection === 'S' && nextDirection === 'E') {
+      return 'left'; // Turn left from South to East
+    } else if (currentDirection === 'S' && nextDirection === 'W') {
+      return 'right'; // Turn right from South to West
+    }  else if (currentDirection === 'S' && nextDirection === 'N') {
+      return 'turnaround'; // Turn turnaround from West to South
+    }else if (currentDirection === 'W' && nextDirection === 'N') {
+      return 'right'; // Turn right from West to North
+    } else if (currentDirection === 'W' && nextDirection === 'S') {
+      return 'left'; // Turn left from West to South
+    } else if (currentDirection === 'W' && nextDirection === 'E') {
+      return 'turnaround'; // Turn turnaround from West to South
+    }else {
+      return 'unknown move'; // Handle other cases
+    }
   }
+  
+  
+
   export default navigateWithInstructions;
   

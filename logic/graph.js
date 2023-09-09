@@ -13,6 +13,7 @@ const initializeGraph = async () => {
         x: room.x,
         y: room.y,
         connectedRooms,
+        UUID:room.UUID,
       });
     });
     console.log("Graph initialized:", graph); // Add this line to check the graph data
