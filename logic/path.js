@@ -104,31 +104,31 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
   
     // Determine the move instruction
     if (currentDirection === nextDirection) {
-      return 'straight'; // If the current direction is the same as the next direction
+      return 'move straight'; // If the current direction is the same as the next direction
     } else if (currentDirection === 'N' && nextDirection === 'E') {
-      return 'right'; // Turn right from North to East
+      return 'turn right'; // Turn right from North to East
     }else if (currentDirection === 'N' && nextDirection === 'W') {
-      return 'left'; // Turn left from North to West
+      return 'turn left'; // Turn left from North to West
     }else if (currentDirection === 'N' && nextDirection === 'S') {
-      return 'turnaround'; // Turn turnaround from North to south
+      return 'turn around and move straight'; // Turn turnaround from North to south
     }else if (currentDirection === 'E' && nextDirection === 'N') {
-      return 'left'; // Turn left from East to North
+      return 'turn left'; // Turn left from East to North
     } else if (currentDirection === 'E' && nextDirection === 'S') {
-      return 'right'; // Turn right from East to South
+      return 'turn right'; // Turn right from East to South
     }else if (currentDirection === 'E' && nextDirection === 'W') {
-      return 'turnaround'; // Turn turnaround from East to West
+      return 'turn around and move straight'; // Turn turnaround from East to West
     }  else if (currentDirection === 'S' && nextDirection === 'E') {
-      return 'left'; // Turn left from South to East
+      return 'turn left'; // Turn left from South to East
     } else if (currentDirection === 'S' && nextDirection === 'W') {
-      return 'right'; // Turn right from South to West
+      return 'turn right'; // Turn right from South to West
     }  else if (currentDirection === 'S' && nextDirection === 'N') {
-      return 'turnaround'; // Turn turnaround from West to South
+      return 'turn around and move straight'; // Turn turnaround from West to South
     }else if (currentDirection === 'W' && nextDirection === 'N') {
-      return 'right'; // Turn right from West to North
+      return 'turn right'; // Turn right from West to North
     } else if (currentDirection === 'W' && nextDirection === 'S') {
-      return 'left'; // Turn left from West to South
+      return 'turn left'; // Turn left from West to South
     } else if (currentDirection === 'W' && nextDirection === 'E') {
-      return 'turnaround'; // Turn turnaround from West to South
+      return 'turn around and move straight'; // Turn turnaround from West to South
     }else {
       return 'unknown move'; // Handle other cases
     }
