@@ -22,7 +22,6 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
         moves.push(moveInstruction);
       }
       console.log(path); // Add this line to log the path
-      const nh = nearestHelper(path);
       return { path, directions, moves,nh};
     }
 
@@ -139,13 +138,49 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
     }
 
   }
-function nearestHelper(path){
-  for(let i =0; i < path.length; i++){
-    const curr = path[i];
-    if(curr.helper === true){
-      return curr.room;
+function nearestHelper(graph,currRoom){
+  if (graph.get(currRoom).helper === true){
+    return graph.get(startRoom).UUID
+  }
+  const visited = new Set();
+  const queue = [];
+  queue.push(startRoom);
+  while (queue.length > 0) {
+    const room = queue.shift();
+
+    if (graph.get(currRoom).helper === true) {
+      // Found the destination room
+      return graph.get(startRoom).UUID
+    }
+
+    if (!visited.has(room)) {
+      visited.add(room);
+
+      const roomData = graph.get(room);
+
+      if (!roomData) {
+        // Handle the case where roomData is missing or undefined
+        return null; // or throw an error or handle it as needed
+      }
+
+      const nextRooms = roomData.connectedRooms;
+
+      if (!nextRooms) {
+        // Handle the case where connectedRooms is missing or undefined
+        return null; // or throw an error or handle it as needed
+      }
+
+      for (const connectedRoom of nextRooms) {
+        if (!visited.has(connectedRoom)) {
+          const connectedRoomData = graph.get(connectedRoom);
+          if (connectedRoomData) {
+            queue.push(connectedRoom);
+          }
+        }
+      }
     }
   }
+
 }
   export default navigateWithInstructions;
   
