@@ -25,6 +25,18 @@ export const getRooms = async (req, res) => {
   }
 };
 
+export const getHelpers = async (req, res) => {
+  try {
+    const allRooms = await Room.find({helper: true});
+    let rooms = allRooms.map(({ UUID, room }) => ({ UUID, room }));
+    
+    res.status(200).json(rooms);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 
 export const navigate = async (req, res) => {
     try { 
