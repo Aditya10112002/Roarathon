@@ -22,7 +22,7 @@ function navigateWithInstructions(graph, startRoom, endRoom) {
         moves.push(moveInstruction);
       }
       console.log(path); // Add this line to log the path
-      return { path, directions, moves,nh};
+      return { path, directions, moves};
     }
 
     if (!visited.has(room)) {
